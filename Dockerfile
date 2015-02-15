@@ -83,7 +83,6 @@ ADD ./config/php5/mods-available/opcache.ini /etc/php5/mods-available/opcache.in
 ADD ./config/exim4/update-exim4.conf.conf /etc/exim4/update-exim4.conf.conf
 ADD ./config/ssh/sshd_config /etc/ssh/sshd_config
 
-RUN update-exim4.conf
-
-# DEBIAN_FRONTEND=newt
+RUN update-exim4.conf \
+ && DEBIAN_FRONTEND=newt
 
