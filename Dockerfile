@@ -2,12 +2,12 @@
 FROM rpawel/ubuntu:trusty
 
 RUN apt-get -q -y update \
- && apt-get -q -y upgrade \
+ && apt-get dist-upgrade -y --no-install-recommends \
 # Nginx + Google Pagespeed
  && DEBIAN_FRONTEND=noninteractive apt-get install -y -q make build-essential g++ \
  && wget -q http://nginx.org/keys/nginx_signing.key -O- | apt-key add - \
  && add-apt-repository -y "deb http://nginx.org/packages/ubuntu/ $(lsb_release -sc) nginx" \
- && NPS_VERSION=1.9.32.3 \
+ && NPS_VERSION=1.9.32.4 \
  && mkdir -p /usr/src/nginx && cd /usr/src/nginx && wget -q https://github.com/pagespeed/ngx_pagespeed/archive/v${NPS_VERSION}-beta.zip \
  && unzip v${NPS_VERSION}-beta.zip && cd /usr/src/nginx/ngx_pagespeed-${NPS_VERSION}-beta/ \
  && /bin/bash scripts/pagespeed_libraries_generator.sh > /usr/src/nginx/pagespeed_libraries.conf \
@@ -15,6 +15,7 @@ RUN apt-get -q -y update \
  && DEBIAN_FRONTEND=noninteractive apt-get -y update \
  && apt-get build-dep -y -q nginx \
  && apt-get install -y -q nginx \
+ && apt-mark hold nginx \
  && cd /usr/src/nginx; apt-get source -q -y nginx \
  && cd /usr/src/nginx/nginx-*/ \
  && ./configure \
@@ -63,11 +64,12 @@ RUN apt-get -q -y update \
  memcached php5-memcached \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php5-imagick trimage \
  && rm -rf /etc/php5/fpm/pool.d/* \
-# SSH
- openssh-server \
-# Other
+# Memcache
  && pecl install memcache \
  && /usr/sbin/php5enmod memcache \
+# Other
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y -q exim4 git subversion \
+# User 
  && useradd -d /var/www/app --no-create-home --shell /bin/bash -g www-data -G adm user \
  && mkdir -p /var/log/app; chmod 664 /var/log/app/; chown user:www-data /var/log/app/ \
  && mkdir -p /var/log/supervisor
@@ -81,7 +83,6 @@ ADD ./config/php5/fpm/pool.d/www1.conf /etc/php5/fpm/pool.d/www1.conf
 ADD ./config/php5/fpm/pool.d/www2.conf /etc/php5/fpm/pool.d/www2.conf
 ADD ./config/php5/mods-available/opcache.ini /etc/php5/mods-available/opcache.ini
 ADD ./config/exim4/update-exim4.conf.conf /etc/exim4/update-exim4.conf.conf
-ADD ./config/ssh/sshd_config /etc/ssh/sshd_config
 
 RUN update-exim4.conf \
  && DEBIAN_FRONTEND=newt
