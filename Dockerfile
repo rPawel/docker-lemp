@@ -71,7 +71,8 @@ RUN apt-get -q -y update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y -q exim4 git subversion \
 # User 
  && useradd -d /var/www/app --no-create-home --shell /bin/bash -g www-data -G adm user \
- && mkdir -p /var/log/app; chmod 664 /var/log/app/; chown user:www-data /var/log/app/ \
+ && mkdir -p /var/log/app; chmod 775 /var/log/app/; chown user:www-data /var/log/app/ \
+ && mkdir -p /var/log/php5; chmod 775 /var/log/php5; chown user:www-data /var/log/php5/ \
  && mkdir -p /var/log/supervisor
 
 ADD ./config/php5/mods-available/memcache.ini /etc/php5/mods-available/memcache.ini

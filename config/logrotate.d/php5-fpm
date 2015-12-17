@@ -1,0 +1,12 @@
+/var/log/php5/php-errors.log {
+        rotate 7
+        daily
+        missingok
+        notifempty
+        compress
+        delaycompress
+        create 644 nginx adm
+        postrotate
+                /usr/lib/php5/php5-fpm-reopenlogs
+        endscript
+}
