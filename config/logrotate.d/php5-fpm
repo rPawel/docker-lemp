@@ -5,7 +5,20 @@
         notifempty
         compress
         delaycompress
-        create 644 nginx adm
+        create 644 www-data adm
+        postrotate
+                /usr/lib/php5/php5-fpm-reopenlogs
+        endscript
+}
+
+/var/log/php5/fpm.log {
+        rotate 7
+        daily
+        missingok
+        notifempty
+        compress
+        delaycompress
+        create 644 www-data adm
         postrotate
                 /usr/lib/php5/php5-fpm-reopenlogs
         endscript
