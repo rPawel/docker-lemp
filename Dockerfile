@@ -57,34 +57,20 @@ RUN apt-get -q -y update \
  && mkdir -p /var/ngx_pagespeed_cache && chown -R www-data:www-data /var/ngx_pagespeed_cache \
  && mv /usr/src/nginx/pagespeed_libraries.conf /etc/nginx/pagespeed_libraries.conf \
  && rm -rf /usr/src/nginx \
-# PHP-FPM
+# Install
  && DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
  php5-fpm php5 php5-cli php5-dev php-pear php5-common php5-apcu \
  php5-mcrypt php5-gd php5-mysql php5-curl php5-json php5-intl \
- memcached php5-memcached \
+ php5-memcached php5-memcache \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php5-imagick trimage \
+ exim4 git subversion \
  && rm -rf /etc/php5/fpm/pool.d/* \
-# Memcache
- && pecl install memcache \
- && /usr/sbin/php5enmod memcache \
-# Other
- && DEBIAN_FRONTEND=noninteractive apt-get install -y -q exim4 git subversion \
-# User 
+
+# Config
+ADD ./config /etc/
+RUN update-exim4.conf \
  && useradd -d /var/www/app --no-create-home --shell /bin/bash -g www-data -G adm user \
  && mkdir -p /var/log/app; chmod 775 /var/log/app/; chown user:www-data /var/log/app/ \
  && mkdir -p /var/log/php5; chmod 775 /var/log/php5; chown www-data:www-data /var/log/php5/ \
- && mkdir -p /var/log/supervisor
-
-ADD ./config/php5/mods-available/memcache.ini /etc/php5/mods-available/memcache.ini
-ADD ./config/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
-ADD ./config/nginx/nginx.conf /etc/nginx/nginx.conf
-ADD ./config/php5/fpm/php.ini /etc/php5/fpm/php.ini
-ADD ./config/php5/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.conf
-ADD ./config/php5/fpm/pool.d/www1.conf /etc/php5/fpm/pool.d/www1.conf
-ADD ./config/php5/fpm/pool.d/www2.conf /etc/php5/fpm/pool.d/www2.conf
-ADD ./config/php5/mods-available/opcache.ini /etc/php5/mods-available/opcache.ini
-ADD ./config/exim4/update-exim4.conf.conf /etc/exim4/update-exim4.conf.conf
-
-RUN update-exim4.conf \
+ && mkdir -p /var/log/supervisor \
  && DEBIAN_FRONTEND=newt
-
