@@ -74,3 +74,14 @@ RUN update-exim4.conf \
  && mkdir -p /var/log/php5; chmod 775 /var/log/php5; chown www-data:www-data /var/log/php5/ \
  && mkdir -p /var/log/supervisor \
  && DEBIAN_FRONTEND=newt
+
+ADD build.sh /
+ADD run.sh /
+
+RUN chmod +x /build.sh /run.sh \
+ && bash /build.sh && rm -f /build.sh
+
+# PORTS
+EXPOSE 80
+
+ENTRYPOINT ["/run.sh"]
