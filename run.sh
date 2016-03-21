@@ -7,6 +7,11 @@ if [ ! -d /var/www/app ]; then
     mkdir -p /var/www/app/public
     chown -R user:www-data /var/www/app
 fi
+if [ ! -d /var/www/cron ]; then
+    mkdir -p /var/www/cron
+    chown -R user:www-data /var/www/cron
+    chmod 750 /var/www/cron
+fi
 rm -rf /home; ln -s /var/www/app /home
 mkdir -p /var/log/php5 /var/log/nginx
 chmod 775 /var/log/php5 /var/log/nginx
