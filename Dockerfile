@@ -64,6 +64,7 @@ RUN apt-get -q -y update \
  php5-memcached php5-memcache \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php5-imagick trimage \
  exim4 git subversion \
+ && php5enmod mcrypt \
  && rm -rf /etc/php5/fpm/pool.d/*
 
 # Config
