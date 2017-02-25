@@ -1,6 +1,6 @@
 upstream app_backend {
-        server unix:/var/run/php5-fpm.sock1 weight=100 max_fails=5 fail_timeout=5;
-        server unix:/var/run/php5-fpm.sock2 weight=100 max_fails=5 fail_timeout=5;
+        server unix:/var/run/php-fpm.sock1 weight=100 max_fails=5 fail_timeout=5;
+        server unix:/var/run/php-fpm.sock2 weight=100 max_fails=5 fail_timeout=5;
 }
 
 server {
