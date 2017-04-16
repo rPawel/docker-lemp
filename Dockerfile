@@ -85,4 +85,6 @@ RUN chmod +x /build.sh /run.sh \
 # PORTS
 EXPOSE 80
 
+HEALTHCHECK --interval=30s --timeout=10s CMD curl --fail http://localhost/ || exit 1
+
 ENTRYPOINT ["/run.sh"]
