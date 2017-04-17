@@ -10,7 +10,7 @@ RUN apt-get -q -y update \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php-imagick trimage \
  exim4 git subversion \
  && phpenmod mcrypt \
- && rm -rf /etc/php/7.0/fpm/pool.d/*
+ && rm -rf /etc/php/7.0/fpm/pool.d/* /etc/nginx/conf.d/default.conf
 
 # Config
 ADD ./config /etc/
