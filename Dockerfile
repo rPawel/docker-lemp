@@ -65,7 +65,7 @@ RUN apt-get -q -y update \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php5-imagick trimage \
  exim4 git subversion \
  && php5enmod mcrypt \
- && rm -rf /etc/php5/fpm/pool.d/*
+ && rm -rf /etc/php5/fpm/pool.d/* /etc/nginx/conf.d/default.conf
 
 # Config
 ADD ./config /etc/
