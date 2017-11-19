@@ -1,4 +1,14 @@
 #!/bin/bash
+iniSet() {
+    file=$1
+    var=$2
+    val=$3
+    if [ -n "${val}" ]; then
+        echo "Setting $var to $val in $file"
+        sed -i "s/^\($var\s*=\s*\).*$/\1$val/" $file
+    fi
+}
+
 PERSISTENT_CONFIG_FOLDER="/root/.persistent-config"
 PERSISTENT_IGNORED_CONFIG_FOLDER=$PERSISTENT_CONFIG_FOLDER/.ignore
 VOLATILE_CONFIG_FOLDER="/"
@@ -19,6 +29,25 @@ find /var/log/php5 /var/log/nginx -type f -exec chmod 644 {} \;
 chown -R user:www-data /var/log/php5 /var/log/nginx
 
 cp -ar ${PERSISTENT_CONFIG_FOLDER}/* ${VOLATILE_CONFIG_FOLDER}
+
+iniSet /etc/php5/mods-available/xdebug.ini "xdebug\.remote_host" $CTNR_HOST_IP
+iniSet /etc/php5/mods-available/xdebug.ini "xdebug\.remote_port" $CTNR_HOST_XDEBUG_PORT
+
+if [ "$CTNR_APP_ENV" = "dev" ]; then
+    echo "== CONTAINER IS STARTING IN DEV MODE =="
+    php5enmod xdebug
+    iniSet /etc/php5/fpm/php.ini display_errors On
+    iniSet /etc/php5/fpm/php.ini display_startup_errors On
+    iniSet /etc/php5/cli/php.ini display_errors On
+    iniSet /etc/php5/cli/php.ini display_startup_errors On
+else
+    echo "== CONTAINER IS STARTING IN PROD MODE =="
+    php5dismod xdebug
+    iniSet /etc/php5/fpm/php.ini display_errors Off
+    iniSet /etc/php5/fpm/php.ini display_startup_errors Off
+    iniSet /etc/php5/cli/php.ini display_errors Off
+    iniSet /etc/php5/cli/php.ini display_startup_errors Off
+fi
 
 # start container
 exec /usr/bin/supervisord -c /etc/supervisord.conf
