@@ -8,7 +8,7 @@ RUN apt-get -q -y update \
  php-mcrypt php-gd php-mysql php-curl php-json php-intl php-xsl php-ssh2 php-mbstring \
  php-zip php-memcached php-memcache php-xdebug \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php-imagick trimage \
- exim4 git subversion \
+ exim4 git subversion locales \
  && phpenmod mcrypt && phpdismod xdebug \
  && rm -rf /etc/php/7.0/fpm/pool.d/* /etc/nginx/conf.d/default.conf
 
