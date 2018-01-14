@@ -16,7 +16,6 @@ RUN apt-get -q -y update \
 ADD ./config /etc/
 RUN update-exim4.conf \
  && useradd -d /var/www/app --no-create-home --shell /bin/bash -g www-data -G adm user \
- && mkdir -p /var/log/app; chmod 775 /var/log/app/; chown user:www-data /var/log/app/ \
  && mkdir -p /var/log/php5; chmod 775 /var/log/php5; chown www-data:www-data /var/log/php5/ \
  && mkdir -p /var/log/supervisor \
  && DEBIAN_FRONTEND=newt

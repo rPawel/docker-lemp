@@ -25,7 +25,7 @@ fi
 rm -rf /home; ln -s /var/www/app /home
 mkdir -p /var/log/php5 /var/log/nginx
 chmod 775 /var/log/php5 /var/log/nginx
-find /var/log/php5 /var/log/nginx -type f -exec chmod 644 {} \; 
+find /var/log/php5 /var/log/nginx -type f -exec chmod 644 {} \;
 chown -R user:www-data /var/log/php5 /var/log/nginx
 
 cp -ar ${PERSISTENT_CONFIG_FOLDER}/* ${VOLATILE_CONFIG_FOLDER}
