@@ -43,10 +43,10 @@ if [ "$CTNR_APP_ENV" = "dev" ]; then
 else
     echo "== CONTAINER IS STARTING IN PROD MODE =="
     phpdismod xdebug
-    iniSet /etc/php/7/fpm/php.ini display_errors Off
-    iniSet /etc/php/7/fpm/php.ini display_startup_errors Off
-    iniSet /etc/php/7/cli/php.ini display_errors Off
-    iniSet /etc/php/7/cli/php.ini display_startup_errors Off
+    iniSet /etc/php/7.0/fpm/php.ini display_errors Off
+    iniSet /etc/php/7.0/fpm/php.ini display_startup_errors Off
+    iniSet /etc/php/7.0/cli/php.ini display_errors Off
+    iniSet /etc/php/7.0/cli/php.ini display_startup_errors Off
 fi
 
 # start container
