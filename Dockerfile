@@ -1,4 +1,3 @@
-# runnable base
 FROM rpawel/ubuntu:xenial
 
 RUN apt-get -q -y update \
