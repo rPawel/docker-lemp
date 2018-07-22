@@ -1,4 +1,3 @@
-# runnable base
 FROM rpawel/ubuntu:trusty
 
 RUN apt-get -q -y update \
