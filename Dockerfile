@@ -1,4 +1,4 @@
-FROM rpawel/ubuntu:bionic
+FROM rpawel/ubuntu:focal
 
 RUN apt-get -q -y update \
  && apt-get dist-upgrade -y --no-install-recommends \
@@ -9,9 +9,9 @@ RUN apt-get -q -y update \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php-imagick trimage \
  libmcrypt-dev libmcrypt4 \
  exim4 git subversion locales composer \
- && pecl install mcrypt-1.0.1 \
+ && pecl install mcrypt-1.0.3 \
  && phpenmod imap && phpdismod xdebug \
- && rm -rf /etc/php/7.2/fpm/pool.d/* /etc/nginx/conf.d/default.conf
+ && rm -rf /etc/php/7.4/fpm/pool.d/* /etc/nginx/conf.d/default.conf
 
 # Config
 ADD ./config /etc/
