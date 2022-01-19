@@ -23,31 +23,33 @@ if [ ! -d /var/www/cron ]; then
     chmod 750 /var/www/cron
 fi
 rm -rf /home; ln -s /var/www/app /home
-mkdir -p /var/log/php /var/log/nginx
-chmod 775 /var/log/php /var/log/nginx
-find /var/log/php /var/log/nginx -type f -exec chmod 644 {} \;
-chown -R user:www-data /var/log/php /var/log/nginx
+mkdir -p /var/log/nginx
+chmod 775 /var/log/nginx
+find /var/log/nginx -type f -exec chmod 644 {} \;
+chown -R user:www-data /var/log/nginx
 
 cp -ar ${PERSISTENT_CONFIG_FOLDER}/* ${VOLATILE_CONFIG_FOLDER}
 
-iniSet /etc/php/7.4/mods-available/xdebug.ini "xdebug\.remote_host" $CTNR_HOST_IP
-iniSet /etc/php/7.4/mods-available/xdebug.ini "xdebug\.remote_port" $CTNR_HOST_XDEBUG_PORT
+iniSet /etc/php/8.1/mods-available/xdebug.ini "xdebug\.remote_host" $CTNR_HOST_IP
+iniSet /etc/php/8.1/mods-available/xdebug.ini "xdebug\.remote_port" $CTNR_HOST_XDEBUG_PORT
 
 if [ "$CTNR_APP_ENV" = "dev" ]; then
     echo "== CONTAINER IS STARTING IN DEV MODE =="
     phpenmod xdebug
-    iniSet /etc/php/7.4/fpm/php.ini display_errors On
-    iniSet /etc/php/7.4/fpm/php.ini display_startup_errors On
-    iniSet /etc/php/7.4/cli/php.ini display_errors On
-    iniSet /etc/php/7.4/cli/php.ini display_startup_errors On
+    iniSet /etc/php/8.1/fpm/php.ini display_errors On
+    iniSet /etc/php/8.1/fpm/php.ini display_startup_errors On
+    iniSet /etc/php/8.1/cli/php.ini display_errors On
+    iniSet /etc/php/8.1/cli/php.ini display_startup_errors On
 else
     echo "== CONTAINER IS STARTING IN PROD MODE =="
     phpdismod xdebug
-    iniSet /etc/php/7.4/fpm/php.ini display_errors Off
-    iniSet /etc/php/7.4/fpm/php.ini display_startup_errors Off
-    iniSet /etc/php/7.4/cli/php.ini display_errors Off
-    iniSet /etc/php/7.4/cli/php.ini display_startup_errors Off
+    iniSet /etc/php/8.1/fpm/php.ini display_errors Off
+    iniSet /etc/php/8.1/fpm/php.ini display_startup_errors Off
+    iniSet /etc/php/8.1/cli/php.ini display_errors Off
+    iniSet /etc/php/8.1/cli/php.ini display_startup_errors Off
 fi
+
+update-exim4.conf
 
 # start container
 exec /usr/bin/supervisord -c /etc/supervisord.conf
