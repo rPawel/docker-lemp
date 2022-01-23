@@ -1,23 +1,22 @@
 FROM rpawel/ubuntu:focal
 
-RUN apt-get -q -y update \
+RUN apt -q -y update \
  && add-apt-repository ppa:ondrej/php -y \
- && apt-get -q -y update \
-# && apt-get dist-upgrade -y --no-install-recommends \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
+ && apt -q -y update \
+ && apt dist-upgrade -y --no-install-recommends \
+ && DEBIAN_FRONTEND=noninteractive apt install -y -q --no-install-recommends \
  nginx php8.1-fpm php8.1 php8.1-cli php8.1-dev php8.1-common php8.1-apcu \
- php8.1-gd php8.1-mysql php8.1-curl php8.1-intl php8.1-xsl php8.1-ssh2 php8.1-mbstring \
+ php8.1-gd php8.1-mysql php8.1-pgsql php8.1-curl php8.1-intl php8.1-xsl php8.1-ssh2 php8.1-mbstring \
  php8.1-zip php8.1-memcached php8.1-memcache php8.1-redis php8.1-xdebug php8.1-imap php8.1-bcmath php8.1-mcrypt \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php8.1-imagick trimage \
  libmcrypt-dev libmcrypt4 \
- exim4 git subversion locales composer \
- && phpenmod imap && phpdismod xdebug \
+ exim4 git locales composer \
+ && phpdismod xdebug \
  && rm -rf /etc/php/*/fpm/pool.d/* /etc/nginx/conf.d/default.conf
 
 # Config
 ADD ./config /etc/
-RUN phpenmod mcrypt \
- && useradd -d /var/www/app --no-create-home --shell /bin/bash -g www-data -G adm user \
+RUN useradd -d /var/www/app --no-create-home --shell /bin/bash -g www-data -G adm user \
  && mkdir -p /var/log/supervisor \
  && DEBIAN_FRONTEND=newt
 
