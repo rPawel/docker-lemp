@@ -8,7 +8,7 @@ RUN apt-get -q -y update \
  php-zip php-memcached php-memcache php-redis php-xdebug php-imap php-bcmath \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php-imagick trimage \
  libmcrypt-dev libmcrypt4 \
- exim4 git subversion locales composer \
+ exim4 locales \
  && pecl install mcrypt-1.0.3 \
  && phpenmod imap && phpdismod xdebug \
  && rm -rf /etc/php/7.4/fpm/pool.d/* /etc/nginx/conf.d/default.conf
