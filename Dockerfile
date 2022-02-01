@@ -15,8 +15,7 @@ RUN apt-get -q -y update \
 
 # Config
 ADD ./config /etc/
-RUN update-exim4.conf \
- && phpenmod mcrypt \
+RUN phpenmod mcrypt \
  && useradd -d /var/www/app --no-create-home --shell /bin/bash -g www-data -G adm user \
  && mkdir -p /var/log/php; chmod 775 /var/log/php; chown www-data:www-data /var/log/php/ \
  && mkdir -p /var/log/supervisor \

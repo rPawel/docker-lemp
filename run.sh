@@ -49,5 +49,7 @@ else
     iniSet /etc/php/7.4/cli/php.ini display_startup_errors Off
 fi
 
+update-exim4.conf
+
 # start container
 exec /usr/bin/supervisord -c /etc/supervisord.conf
