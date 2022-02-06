@@ -10,7 +10,7 @@ RUN apt -q -y update \
  php8.1-zip php8.1-memcached php8.1-memcache php8.1-redis php8.1-xdebug php8.1-imap php8.1-bcmath php8.1-mcrypt \
  imagemagick graphicsmagick graphicsmagick-libmagick-dev-compat php8.1-imagick trimage \
  libmcrypt-dev libmcrypt4 \
- exim4 git locales composer \
+ exim4 locales \
  && phpdismod xdebug \
  && rm -rf /etc/php/*/fpm/pool.d/* /etc/nginx/conf.d/default.conf
 
