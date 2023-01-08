@@ -1,2 +1,2 @@
-docker-lemp focal
+docker-lemp jammy
 =============
